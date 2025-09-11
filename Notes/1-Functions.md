@@ -106,3 +106,95 @@ python提供了一种特殊的语法来使用高阶函数作为执行`def`语句
         return 3 * x
 >>> triple = trace(triple)
 ```
+
+### HW02 - `make_repeater`
+
+返回一个函数，该函数对输入值应用 `f` 共 `n` 次（即 `f` 的 `n` 次复合函数）。
+
+```python
+def make_repeater(f, n):
+    """Returns the function that computes the nth application of f.
+
+    >>> add_three = make_repeater(increment, 3)
+    >>> add_three(5)
+    8
+    >>> make_repeater(triple, 5)(1) # 3 * (3 * (3 * (3 * (3 * 1))))
+    243
+    >>> make_repeater(square, 2)(5) # square(square(5))
+    625
+    >>> make_repeater(square, 3)(5) # square(square(square(5)))
+    390625
+    """
+```
+
+#### 代码实现
+```python
+def make_repeater(f, n):
+    if n == 1:
+        return f
+    else:
+        return lambda x: f(make_repeater(f, n-1)(x))
+```
+
+#### 替代实现（迭代版本）
+```python
+def make_repeater(f, n):
+    def g(x):
+        for i in range(n):
+            x = f(x)
+        return x
+    return g
+```
+
+#### 核心原理
+
+##### 1.作用域
+在`make_repeater`内定义的函数`g` / `lambda x: f(make_repeater(f, n-1)(x))`是一个闭包，能够访问`make_repeater`的参数`f`和`n`。通过这种方式把`f`和`n`“记住”下来，从而去被`(5)`调用。
+
+##### 2. 递归思想
+- **基准情况**：`n=1` 时，直接返回 `f`
+- **递归情况**：`n>1` 时，返回 `f` 与 `make_repeater(f, n-1)` 的组合
+
+##### 3. Lambda函数的作用
+```python
+lambda x: f(make_repeater(f, n-1)(x))
+```
+- 创建一个匿名函数，接受参数 `x`
+- 先递归计算内层 `make_repeater(f, n-1)(x)`
+- 再将结果传递给外层函数 `f`
+
+##### 执行顺序
+**从内到外执行**，不是从右到左读取：
+```
+f( make_repeater(f, n-1)(x) )
+    ↑    先执行(内部)      ↑
+```
+
+##### 执行过程示例（n=3）
+```python
+make_repeater(square, 3)(5)
+= lambda x: square(make_repeater(square, 2)(x)) (5)
+= square(make_repeater(square, 2)(5))
+
+# 展开内层：
+make_repeater(square, 2)(5)
+= lambda x: square(make_repeater(square, 1)(x)) (5)
+= square(make_repeater(square, 1)(5))
+= square(square(5))  # 因为 make_repeater(square, 1) = square
+= square(25)
+= 625
+
+# 代回外层：
+= square(625)
+= 390625
+```
+
+## 环境作用域要点
+1. **闭包机制**：内部lambda函数通过闭包捕获外部函数的参数 `f` 和 `n`
+2. **递归调用**：每次递归调用都会创建新的作用域，但都引用相同的 `f`
+3. **参数传递**：外层的 `x` 被传递给内层的函数调用
+
+## 注意事项
+1. **递归深度**：递归版本在 `n` 很大时可能达到最大递归深度
+2. **n=0的情况**：当前代码未处理 `n=0`（应返回恒等函数）
+3. **性能考虑**：迭代版本通常更高效，避免递归开销
