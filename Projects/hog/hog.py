@@ -188,7 +188,9 @@ def always_roll(n):
     assert n >= 0 and n <= 10
 
     # BEGIN PROBLEM 6
-    "*** YOUR CODE HERE ***"
+    def always_return_n(score0, score1):
+        return n
+    return always_return_n
     # END PROBLEM 6
 
 
@@ -220,7 +222,12 @@ def is_always_roll(strategy, goal=GOAL):
     False
     """
     # BEGIN PROBLEM 7
-    "*** YOUR CODE HERE ***"
+    base = strategy(0, 0)
+    for i in range(0, goal):
+        for j in range (0, goal):
+            if strategy(i, j) != base:
+                return False
+    return True
     # END PROBLEM 7
 
 
@@ -237,7 +244,12 @@ def make_averaged(original_function, times_called=1000):
     """
 
     # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
+    def times_original_function_called(*args):
+        result = 0
+        for i in range(times_called):
+            result += original_function(*args)
+        return result / times_called
+    return times_original_function_called
     # END PROBLEM 8
 
 
@@ -249,8 +261,14 @@ def max_scoring_num_rolls(dice=six_sided, times_called=1000):
     >>> max_scoring_num_rolls(dice)
     1
     """
-    # BEGIN PROBLEM 9
-    "*** YOUR CODE HERE ***"
+    # BEGIN PROBLEM 9\
+    averaged_dice = make_averaged(roll_dice, times_called)
+    num, max_score= 1, averaged_dice(1, dice)
+    for i in range(2, 11):
+        new_score = averaged_dice(i, dice)
+        if new_score > max_score:
+            num, max_score = i, new_score
+    return num
     # END PROBLEM 9
 
 
@@ -296,7 +314,10 @@ def boar_strategy(score, opponent_score, threshold=11, num_rolls=6):
     points, and returns NUM_ROLLS otherwise. Ignore the Sus Fuss rule.
     """
     # BEGIN PROBLEM 10
-    return num_rolls  # Remove this line once implemented.
+    boar_score = boar_brawl(score, opponent_score)
+    if boar_score >= threshold:
+        return 0
+    return num_rolls
     # END PROBLEM 10
 
 
@@ -305,17 +326,42 @@ def sus_strategy(score, opponent_score, threshold=11, num_rolls=6):
     THRESHOLD points, and returns NUM_ROLLS otherwise. Consider both the Boar Brawl and
     Suss Fuss rules."""
     # BEGIN PROBLEM 11
-    return num_rolls  # Remove this line once implemented.
+    sus_score = sus_update(0, score, opponent_score, dice = six_sided)
+    if (sus_score - score) >= threshold:
+        return 0
+    return num_rolls
     # END PROBLEM 11
 
 
-def final_strategy(score, opponent_score):
+def final_strategy(score, opponent_score, goal=GOAL, dice=six_sided, times_called=50, num_rolls=6):
     """Write a brief description of your final strategy.
 
     *** YOUR DESCRIPTION HERE ***
     """
     # BEGIN PROBLEM 12
-    return 6  # Remove this line once implemented.
+    averaged_dice = make_averaged(roll_dice, times_called)
+    num, max_score= 1, averaged_dice(1, dice)
+    for i in range(2, 11):
+        new_score = averaged_dice(i, dice)
+        if new_score > max_score:
+            num, max_score = i, new_score
+    
+    averaged_sus_update = make_averaged(sus_update, times_called)
+    threshold =  averaged_sus_update(num, score, opponent_score, dice) - score
+    sus_score = averaged_sus_update(0, score, opponent_score, dice) - score
+    try_num = 0
+    if score + threshold >= goal:
+        while averaged_sus_update(try_num, score, opponent_score, dice) <= goal:
+            if try_num == 3:
+                break
+            else:
+                try_num += 1
+        return try_num
+    else:
+        if sus_score >= threshold:
+            return 0
+        else:
+            return num_rolls 
     # END PROBLEM 12
 
 

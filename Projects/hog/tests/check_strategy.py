@@ -1,4 +1,4 @@
-from Projects.hog.hog import GOAL_SCORE
+from hog import GOAL_SCORE
 
 def check_strategy_roll(score, opponent_score, num_rolls):
     """Raises an error with a helpful message if NUM_ROLLS is an invalid

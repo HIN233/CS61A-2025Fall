@@ -2,7 +2,7 @@
 # Optional: Adding a User Interface #
 #####################################
 
-from Projects.hog.hog import *
+from hog import *
 
 ########################
 # Printing game events #
