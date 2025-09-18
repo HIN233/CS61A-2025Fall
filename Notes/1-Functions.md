@@ -107,6 +107,36 @@ python提供了一种特殊的语法来使用高阶函数作为执行`def`语句
 >>> triple = trace(triple)
 ```
 
+### *args 和 **kwargs
+
+`*args`和`**kwargs`允许函数接受任意数量的位置参数和关键字参数。
+
+```python
+def example_function(*args, **kwargs):
+    print("Positional arguments:", args)
+    print("Keyword arguments:", kwargs)
+```
+
+因此我们可以传递任意数量的参数以构建高阶函数：
+```python
+>>> def printed(f):
+...     def print_and_return(*args):
+...         result = f(*args)
+...         print('Result:', result)
+...         return result
+...     return print_and_return
+>>> printed_pow = printed(pow)
+>>> printed_pow(2, 8)  # *args represents the arguments (2, 8)
+Result: 256
+256
+>>> printed_abs = printed(abs)
+>>> printed_abs(-10)  # *args represents one argument (-10)
+Result: 10
+10
+```
+这里，我们可以通过 *args 语法将任意数量的参数传递给 print_and_return。我们还可以在 print_and_return 函数内部使用 *args 来用相同的参数调用另一个函数。
+
+
 ### HW02 - `make_repeater`
 
 返回一个函数，该函数对输入值应用 `f` 共 `n` 次（即 `f` 的 `n` 次复合函数）。
@@ -189,12 +219,12 @@ make_repeater(square, 2)(5)
 = 390625
 ```
 
-## 环境作用域要点
+##### 环境作用域要点
 1. **闭包机制**：内部lambda函数通过闭包捕获外部函数的参数 `f` 和 `n`
 2. **递归调用**：每次递归调用都会创建新的作用域，但都引用相同的 `f`
 3. **参数传递**：外层的 `x` 被传递给内层的函数调用
 
-## 注意事项
+###### 注意事项
 1. **递归深度**：递归版本在 `n` 很大时可能达到最大递归深度
 2. **n=0的情况**：当前代码未处理 `n=0`（应返回恒等函数）
 3. **性能考虑**：迭代版本通常更高效，避免递归开销
