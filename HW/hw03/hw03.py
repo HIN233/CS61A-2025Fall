@@ -1,4 +1,4 @@
-HW_SOURCE_FILE = __file__
+SOURCE_FILE = __file__
 
 
 def num_eights(n):
@@ -20,12 +20,16 @@ def num_eights(n):
     3
     >>> from construct_check import check
     >>> # ban all assignment statements
-    >>> check(HW_SOURCE_FILE, 'num_eights',
+    >>> check(SOURCE_FILE, 'num_eights',
     ...       ['Assign', 'AnnAssign', 'AugAssign', 'NamedExpr', 'For', 'While'])
     True
     """
-    "*** YOUR CODE HERE ***"
-
+    if n == 0:
+        return 0
+    elif n % 10 == 8:
+        return 1 + num_eights(n // 10)
+    else:
+        return num_eights(n // 10)
 
 def digit_distance(n):
     """Determines the digit distance of n.
@@ -42,15 +46,18 @@ def digit_distance(n):
     16
     >>> from construct_check import check
     >>> # ban all loops
-    >>> check(HW_SOURCE_FILE, 'digit_distance',
+    >>> check(SOURCE_FILE, 'digit_distance',
     ...       ['For', 'While'])
     True
     """
-    "*** YOUR CODE HERE ***"
+    if n % 10 == n:
+        return 0
+    else:
+        return digit_distance(n // 10) + abs(n % 10 - n // 10 % 10)
 
 
-def interleaved_sum(n, odd_func, even_func):
-    """Compute the sum odd_func(1) + even_func(2) + odd_func(3) + ..., up
+def interleaved_sum(n, f_odd, f_even):
+    """Compute the sum f_odd(1) + f_even(2) + f_odd(3) + ..., up
     to n.
 
     >>> identity = lambda x: x
@@ -65,13 +72,19 @@ def interleaved_sum(n, odd_func, even_func):
     >>> interleaved_sum(4, square, triple)   # 1*1 + 2*3 + 3*3 + 4*3
     28
     >>> from construct_check import check
-    >>> check(HW_SOURCE_FILE, 'interleaved_sum', ['While', 'For', 'Mod']) # ban loops and %
+    >>> check(SOURCE_FILE, 'interleaved_sum', ['While', 'For', 'Mod']) # ban loops and %
     True
-    >>> check(HW_SOURCE_FILE, 'interleaved_sum', ['BitAnd', 'BitOr', 'BitXor']) # ban bitwise operators, don't worry about these if you don't know what they are
+    >>> check(SOURCE_FILE, 'interleaved_sum', ['BitAnd', 'BitOr', 'BitXor']) # ban bitwise operators, don't worry about these if you don't know what they are
     True
     """
-    "*** YOUR CODE HERE ***"
-
+    def sum_k2n(k):
+        if k > n:
+            return 0
+        elif k == n:
+            return f_odd(k)
+        else:
+            return f_odd(k) + f_even(k + 1) + sum_k2n(k + 2)
+    return sum_k2n(1)
 
 def next_smaller_dollar(bill):
     """Returns the next smaller bill in order."""
@@ -103,11 +116,18 @@ def count_dollars(total):
     3274
     >>> from construct_check import check
     >>> # ban iteration
-    >>> check(HW_SOURCE_FILE, 'count_dollars', ['While', 'For'])
+    >>> check(SOURCE_FILE, 'count_dollars', ['While', 'For'])
     True
     """
-    "*** YOUR CODE HERE ***"
-
+    def largest_count(total, bill):
+        if total == 0:
+            return 1
+        elif total < 0:
+            return 0
+        elif bill is None:
+            return 0
+        return largest_count(total - bill, bill) + largest_count(total, next_smaller_dollar(bill))
+    return largest_count(total, 100)
 
 def next_larger_dollar(bill):
     """Returns the next larger bill in order."""
@@ -139,11 +159,40 @@ def count_dollars_upward(total):
     3274
     >>> from construct_check import check
     >>> # ban iteration
-    >>> check(HW_SOURCE_FILE, 'count_dollars_upward', ['While', 'For'])
+    >>> check(SOURCE_FILE, 'count_dollars_upward', ['While', 'For'])
     True
     """
-    "*** YOUR CODE HERE ***"
+    def smallest_count(amount, bill):
+        if amount > total:
+            return 0
+        if amount == total:
+            return 1
+        
+        # 如果还有更大的面额，考虑两种选择： 1. 使用当前面额; 2. 使用下一个更大面额
+        # 如果没有更大的面额了，只能使用当前面额
+        if next_larger_dollar(bill) is None:
+            return smallest_count(amount + bill, bill)
+        else:
+            return smallest_count(amount + bill, bill) + smallest_count(amount, next_larger_dollar(bill))
+    return smallest_count(0, 1)
 
+def knapsack(weights, values, c):
+    """
+    >>> w = [2, 6, 3, 3]
+    >>> v = [1, 5, 3, 3]
+    >>> knapsack(w, v, 6)
+    6
+    """
+    def dp(i, c):
+        if i == len(weights) or c <= 0:
+            return 0
+        if weights[i] > c:
+            return dp(i + 1, c)
+        
+        take = values[i] + dp(i + 1, c - weights[i])
+        skip = dp(i + 1, c) 
+        return max(take, skip)
+    return dp(0, c)
 
 def print_move(origin, destination):
     """Print instructions to move a disk."""
@@ -189,7 +238,7 @@ def make_anonymous_factorial():
     120
     >>> from construct_check import check
     >>> # ban any assignments or recursion
-    >>> check(HW_SOURCE_FILE, 'make_anonymous_factorial',
+    >>> check(SOURCE_FILE, 'make_anonymous_factorial',
     ...     ['Assign', 'AnnAssign', 'AugAssign', 'NamedExpr', 'FunctionDef', 'Recursion'])
     True
     """
