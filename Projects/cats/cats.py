@@ -360,7 +360,19 @@ def report_progress(typed: list[str], source: list[str], user_id: int, upload) -
     0.2
     """
     # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
+    correct = 0
+    for i in range(len(typed)):
+        if typed[i] == source[i]:
+            correct += 1
+        else:
+            break
+    acc = correct / len(source)
+
+    res = {}
+    res['id'] = user_id
+    res['progress'] = acc
+    upload(res)
+    return acc
     # END PROBLEM 8
 
 
@@ -384,7 +396,12 @@ def time_per_word(words: list[str], timestamps_per_player: list[list[int]]) -> d
     """
     tpp = timestamps_per_player  # A shorter name (for convenience)
     # BEGIN PROBLEM 9
-    times = []  # You may remove this line
+    times = []
+    for i in range(len(tpp)):
+        single = []
+        for j in range(1, len(tpp[i])):
+            single.append(tpp[i][j] - tpp[i][j-1])
+        times.append(single)
     # END PROBLEM 9
     return {'words': words, 'times': times}
 
@@ -412,7 +429,20 @@ def fastest_words(words_and_times: dict) -> list[list[str]]:
     player_indices = range(len(times))  # contains an *index* for each player
     word_indices = range(len(words))    # contains an *index* for each word
     # BEGIN PROBLEM 10
-    "*** YOUR CODE HERE ***"
+    def minarg(s: list):
+        minimum = min(s)
+        for i in range(len(s)):
+            if s[i] == minimum:
+                return i
+        return None
+    
+    result = [[] for _ in player_indices]
+
+    for i in word_indices:
+        word_times = [times[k][i] for k in player_indices]
+        result[minarg(word_times)].append(words[i])
+    
+    return result
     # END PROBLEM 10
 
 
