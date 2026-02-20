@@ -3,6 +3,7 @@
 ## Frindly Links
 - [课程主页](https://cs61a.org/)
 - [2024Fall课程主页](https://insideempire.github.io/CS61A-Website-Archive/index.html)
+- [2025Fall课程主页](https://web.archive.org/web/20251212023535/https://cs61a.org/)
 - [课程教材](https://www.composingprograms.com)
 - [教材电子书](https://github.com/CC-bit/UCB-CS61A-Textbook/)
 - [中文版教材](https://composingprograms.netlify.app)
