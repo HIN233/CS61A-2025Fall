@@ -1,248 +1,239 @@
-def flatten(s):
-    """Returns a flattened version of list s.
-
-    >>> flatten([1, 2, 3])     # normal list
-    [1, 2, 3]
-    >>> x = [1, [2, 3], 4]     # deep list
-    >>> flatten(x)
-    [1, 2, 3, 4]
-    >>> x # Ensure x is not mutated
-    [1, [2, 3], 4]
-    >>> x = [[1, [1, 1]], 1, [1, 1]] # deep list
-    >>> flatten(x)
-    [1, 1, 1, 1, 1, 1]
-    >>> x
-    [[1, [1, 1]], 1, [1, 1]]
-    >>> x = [[1, [2, 3], [4, [5, 6]]]]
-    >>> flatten(x)
-    [1, 2, 3, 4, 5, 6]
-    >>> x
-    [[1, [2, 3], [4, [5, 6]]]]
-    >>> x = [[1, [1, [1, [1, 1, [1, 1, [1]]]], 1]]]
-    >>> flatten(x)
-    [1, 1, 1, 1, 1, 1, 1, 1, 1]
-    >>> x
-    [[1, [1, [1, [1, 1, [1, 1, [1]]]], 1]]]
-    """
-    "*** YOUR CODE HERE ***"
+SOURCE_FILE = __file__
 
 
-def my_map(fn, seq):
-    """Applies fn onto each element in seq and returns a list.
-    >>> my_map(lambda x: x*x, [1, 2, 3])
-    [1, 4, 9]
-    >>> my_map(lambda x: abs(x), [1, -1, 5, 3, 0])
-    [1, 1, 5, 3, 0]
-    >>> my_map(lambda x: print(x), ['cs61a', 'spring', '2023'])
-    cs61a
-    spring
-    2023
-    [None, None, None]
-    """
-    return ______
+def insert_items(s: list[int], before: int, after: int) -> list[int]:
+    """Insert after into s following each occurrence of before and then return s.
 
-
-def my_filter(pred, seq):
-    """Keeps elements in seq only if they satisfy pred.
-    >>> my_filter(lambda x: x % 2 == 0, [1, 2, 3, 4])  # new list has only even-valued elements
-    [2, 4]
-    >>> my_filter(lambda x: (x + 5) % 3 == 0, [1, 2, 3, 4, 5])
-    [1, 4]
-    >>> my_filter(lambda x: print(x), [1, 2, 3, 4, 5])
-    1
-    2
-    3
-    4
-    5
-    []
-    >>> my_filter(lambda x: max(5, x) == 5, [1, 2, 3, 4, 5, 6, 7])
-    [1, 2, 3, 4, 5]
-    """
-    return ______
-
-
-def my_reduce(combiner, seq):
-    """Combines elements in seq using combiner.
-    seq will have at least one element.
-    >>> my_reduce(lambda x, y: x + y, [1, 2, 3, 4])  # 1 + 2 + 3 + 4
-    10
-    >>> my_reduce(lambda x, y: x * y, [1, 2, 3, 4])  # 1 * 2 * 3 * 4
-    24
-    >>> my_reduce(lambda x, y: x * y, [4])
-    4
-    >>> my_reduce(lambda x, y: x + 2 * y, [1, 2, 3]) # (1 + 2 * 2) + 2 * 3
-    11
-    """
-    "*** YOUR CODE HERE ***"
-
-
-def my_map_syntax_check():
-    """Check that your two_of_three code consists of nothing but a return statement.
-
-    >>> # You aren't expected to understand the code of this test.
-    >>> import inspect, ast
-    >>> [type(x).__name__ for x in ast.parse(inspect.getsource(my_map)).body[0].body]
-    ['Expr', 'Return']
-    """
-    # You don't need to edit this function. It's just here to check your work.
-
-
-def my_filter_syntax_check():
-    """Check that your two_of_three code consists of nothing but a return statement.
-
-    >>> # You aren't expected to understand the code of this test.
-    >>> import inspect, ast
-    >>> [type(x).__name__ for x in ast.parse(inspect.getsource(my_filter)).body[0].body]
-    ['Expr', 'Return']
-    """
-    # You don't need to edit this function. It's just here to check your work.
-
-
-from math import sqrt
-
-
-def distance(city_a, city_b):
-    """
-    >>> city_a = make_city('city_a', 0, 1)
-    >>> city_b = make_city('city_b', 0, 2)
-    >>> distance(city_a, city_b)
-    1.0
-    >>> city_c = make_city('city_c', 6.5, 12)
-    >>> city_d = make_city('city_d', 2.5, 15)
-    >>> distance(city_c, city_d)
-    5.0
-    """
-    "*** YOUR CODE HERE ***"
-
-
-def closer_city(lat, lon, city_a, city_b):
-    """
-    Returns the name of either city_a or city_b, whichever is closest to
-    coordinate (lat, lon). If the two cities are the same distance away
-    from the coordinate, consider city_b to be the closer city.
-
-    >>> berkeley = make_city('Berkeley', 37.87, 112.26)
-    >>> stanford = make_city('Stanford', 34.05, 118.25)
-    >>> closer_city(38.33, 121.44, berkeley, stanford)
-    'Stanford'
-    >>> bucharest = make_city('Bucharest', 44.43, 26.10)
-    >>> vienna = make_city('Vienna', 48.20, 16.37)
-    >>> closer_city(41.29, 174.78, bucharest, vienna)
-    'Bucharest'
-    """
-    "*** YOUR CODE HERE ***"
-
-
-def check_city_abstraction():
-    """
-    There's nothing for you to do for this function, it's just here for the extra doctest
-    >>> change_abstraction(True)
-    >>> city_a = make_city('city_a', 0, 1)
-    >>> city_b = make_city('city_b', 0, 2)
-    >>> distance(city_a, city_b)
-    1.0
-    >>> city_c = make_city('city_c', 6.5, 12)
-    >>> city_d = make_city('city_d', 2.5, 15)
-    >>> distance(city_c, city_d)
-    5.0
-    >>> berkeley = make_city('Berkeley', 37.87, 112.26)
-    >>> stanford = make_city('Stanford', 34.05, 118.25)
-    >>> closer_city(38.33, 121.44, berkeley, stanford)
-    'Stanford'
-    >>> bucharest = make_city('Bucharest', 44.43, 26.10)
-    >>> vienna = make_city('Vienna', 48.20, 16.37)
-    >>> closer_city(41.29, 174.78, bucharest, vienna)
-    'Bucharest'
-    >>> change_abstraction(False)
-    """
-
-# Treat all the following code as being behind an abstraction layer,
-# you shouldn't need to look at it.
-
-
-def make_city(name, lat, lon):
-    """
-    >>> city = make_city('Berkeley', 0, 1)
-    >>> get_name(city)
-    'Berkeley'
-    >>> get_lat(city)
-    0
-    >>> get_lon(city)
-    1
-    """
-    if change_abstraction.changed:
-        return {"name": name, "lat": lat, "lon": lon}
-    else:
-        return [name, lat, lon]
-
-
-def get_name(city):
-    """
-    >>> city = make_city('Berkeley', 0, 1)
-    >>> get_name(city)
-    'Berkeley'
-    """
-    if change_abstraction.changed:
-        return city["name"]
-    else:
-        return city[0]
-
-
-def get_lat(city):
-    """
-    >>> city = make_city('Berkeley', 0, 1)
-    >>> get_lat(city)
-    0
-    """
-    if change_abstraction.changed:
-        return city["lat"]
-    else:
-        return city[1]
-
-
-def get_lon(city):
-    """
-    >>> city = make_city('Berkeley', 0, 1)
-    >>> get_lon(city)
-    1
-    """
-    if change_abstraction.changed:
-        return city["lon"]
-    else:
-        return city[2]
-
-###############
-
-
-def count_palindromes(L):
-    """The number of palindromic words in the sequence of strings
-    L (ignoring case).
-
-    >>> count_palindromes(("Acme", "Madam", "Pivot", "Pip"))
-    2
-    """
-    return ______
-
-
-def coords(fn, seq, lower, upper):
-    """
-    >>> seq = [-4, -2, 0, 1, 3]
-    >>> fn = lambda x: x**2
-    >>> coords(fn, seq, 1, 9)
-    [[-2, 4], [1, 1], [3, 9]]
-    """
-    "*** YOUR CODE HERE ***"
-    return ______
-
-
-def change_abstraction(change):
-    """
-    For testing purposes.
-    >>> change_abstraction(True)
-    >>> change_abstraction.changed
+    >>> test_s = [1, 5, 8, 5, 2, 3]
+    >>> new_s = insert_items(test_s, 5, 7)
+    >>> new_s
+    [1, 5, 7, 8, 5, 7, 2, 3]
+    >>> test_s
+    [1, 5, 7, 8, 5, 7, 2, 3]
+    >>> new_s is test_s
+    True
+    >>> double_s = [1, 2, 1, 2, 3, 3]
+    >>> double_s = insert_items(double_s, 3, 4)
+    >>> double_s
+    [1, 2, 1, 2, 3, 4, 3, 4]
+    >>> large_s = [1, 4, 8]
+    >>> large_s2 = insert_items(large_s, 4, 4)
+    >>> large_s2
+    [1, 4, 4, 8]
+    >>> large_s3 = insert_items(large_s2, 4, 6)
+    >>> large_s3
+    [1, 4, 6, 4, 6, 8]
+    >>> large_s3 is large_s
     True
     """
-    change_abstraction.changed = change
+    output = s
+    j = 0
+    for i in range(len(s)):
+        if s[j] == before:
+            output.insert(j+1,after)
+            j+=1
+        j+=1
+            
+    return output
 
 
-change_abstraction.changed = False
+def group_by(s: list[int], fn) -> dict[int, list[int]]:
+    """Return a dictionary of lists that together contain the elements of s.
+    The key for each list is the value that fn returns when called on any of the
+    values of that list.
+
+    >>> group_by([12, 23, 14, 45], lambda p: p // 10)
+    {1: [12, 14], 2: [23], 4: [45]}
+    >>> group_by(range(-3, 4), lambda x: x * x)
+    {9: [-3, 3], 4: [-2, 2], 1: [-1, 1], 0: [0]}
+    """
+    grouped = {}
+    for i in s:
+        key = fn(i)
+        if key in grouped:
+            grouped[key].append(i)
+        else:
+            grouped[key] = [i]
+    return grouped
+
+
+def sprout_leaves(t, leaves):
+    """Sprout new leaves containing the labels in leaves at each leaf of
+    the original tree t and return the resulting tree.
+
+    >>> t1 = tree(1, [tree(2), tree(3)])
+    >>> print_tree(t1)
+    1
+      2
+      3
+    >>> new1 = sprout_leaves(t1, [4, 5])
+    >>> print_tree(new1)
+    1
+      2
+        4
+        5
+      3
+        4
+        5
+
+    >>> t2 = tree(1, [tree(2, [tree(3)])])
+    >>> print_tree(t2)
+    1
+      2
+        3
+    >>> new2 = sprout_leaves(t2, [6, 1, 2])
+    >>> print_tree(new2)
+    1
+      2
+        3
+          6
+          1
+          2
+    """
+    if is_leaf(t):
+        return tree(label(t), [tree(leaf) for leaf in leaves])
+    return tree(label(t), [sprout_leaves(branch, leaves) for branch in branches(t)])
+
+
+from typing import Iterator  # "t: Iterator[int]" means t is an iterator that yields integers
+
+def count_occurrences(t: Iterator[int], n: int, x: int) -> int:
+    """Return the number of times that x is equal to one of the
+    first n elements of iterator t.
+
+    >>> s = iter([10, 9, 10, 9, 9, 10, 8, 8, 8, 7])
+    >>> count_occurrences(s, 10, 9)
+    3
+    >>> t = iter([10, 9, 10, 9, 9, 10, 8, 8, 8, 7])
+    >>> count_occurrences(t, 3, 10)
+    2
+    >>> u = iter([3, 2, 2, 2, 1, 2, 1, 4, 4, 5, 5, 5])
+    >>> count_occurrences(u, 1, 3)  # Only iterate over 3
+    1
+    >>> count_occurrences(u, 3, 2)  # Only iterate over 2, 2, 2
+    3
+    >>> list(u)                     # Ensure that the iterator has advanced the right amount
+    [1, 2, 1, 4, 4, 5, 5, 5]
+    >>> v = iter([4, 1, 6, 6, 7, 7, 6, 6, 2, 2, 2, 5])
+    >>> count_occurrences(v, 6, 6)
+    2
+    """
+    count = 0
+    for i in range(n):
+        if x == next(t):
+            count += 1
+    return count
+
+
+def pathsum(t, n):
+    """
+    >>> my_tree = tree(2, [tree(3, [tree(5), tree(7)]), tree(4)])
+    >>> pathsum(my_tree, 12) # 2 -> 3 -> 7
+    True
+    >>> pathsum(my_tree, 5)  # A path that doesn't reach a leaf such as 2 -> 3 doesn't count
+    False
+    """
+    bool = False
+    if is_leaf(t): 
+        if n == label(t):
+            return True
+        else:
+            return False
+    else:
+        for branch in branches(t):
+            bool = bool or pathsum(branch, n - label(t))
+    return bool
+
+
+def sum_tree(t):
+    """Add all elements in a tree.
+
+    >>> t = tree(4, [tree(2, [tree(3)]), tree(6)])
+    >>> sum_tree(t)
+    15
+    """
+    return label(t) + sum([sum_tree(branch) for branch in branches(t)])
+
+def balanced(t):
+    """Checks if each branch has same sum of all elements and
+    if each branch is balanced.
+
+    >>> t = tree(1, [tree(3), tree(1, [tree(2)]), tree(1, [tree(1), tree(1)])])
+    >>> balanced(t)
+    True
+    >>> t = tree(1, [t, tree(1)])
+    >>> balanced(t)
+    False
+    >>> t = tree(1, [tree(4), tree(1, [tree(2), tree(1)]), tree(1, [tree(3)])])
+    >>> balanced(t)
+    False
+    """
+    return is_leaf(t) or (all(balanced(b) for b in branches(t)) and len(set(sum_tree(b) for b in branches(t))) == 1)
+
+
+
+# Tree Data Abstraction
+
+def tree(label, branches=[]):
+    """Construct a tree with the given label value and a list of branches."""
+    for branch in branches:
+        assert is_tree(branch), 'branches must be trees'
+    return [label] + list(branches)
+
+def label(tree):
+    """Return the label value of a tree."""
+    return tree[0]
+
+def branches(tree):
+    """Return the list of branches of the given tree."""
+    return tree[1:]
+
+def is_tree(tree):
+    """Returns True if the given tree is a tree, and False otherwise."""
+    if type(tree) != list or len(tree) < 1:
+        return False
+    for branch in branches(tree):
+        if not is_tree(branch):
+            return False
+    return True
+
+def is_leaf(tree):
+    """Returns True if the given tree's list of branches is empty, and False
+    otherwise.
+    """
+    return not branches(tree)
+
+def print_tree(t, indent=0):
+    """Print a representation of this tree in which each node is
+    indented by two spaces times its depth from the root.
+
+    >>> print_tree(tree(1))
+    1
+    >>> print_tree(tree(1, [tree(2)]))
+    1
+      2
+    >>> numbers = tree(1, [tree(2), tree(3, [tree(4), tree(5)]), tree(6, [tree(7)])])
+    >>> print_tree(numbers)
+    1
+      2
+      3
+        4
+        5
+      6
+        7
+    """
+    print('  ' * indent + str(label(t)))
+    for b in branches(t):
+        print_tree(b, indent + 1)
+
+def copy_tree(t):
+    """Returns a copy of t. Only for testing purposes.
+
+    >>> t = tree(5)
+    >>> copy = copy_tree(t)
+    >>> t = tree(6)
+    >>> print_tree(copy)
+    5
+    """
+    return tree(label(t), [copy_tree(b) for b in branches(t)])
+
